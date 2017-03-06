@@ -62,6 +62,8 @@ class Pagic {
       }
 
       const originalContent = fse.readFileSync(resolvedFilePath, 'utf-8');
+      
+      const startTime = new Date();
 
       const context = processors.reduce((prevContext, processor) => processor(prevContext), {
         path: filePath,
@@ -73,7 +75,9 @@ class Pagic {
 
       fse.outputFileSync(resolvedDistPath, html);
 
-      console.log(`Generated ${resolvedDistPath}`);
+      const endTime = new Date();
+
+      console.log(`Generated ${resolvedDistPath} ......`+(endTime.getTime()-startTime.getTime())+'ms');
     });
   }
 
