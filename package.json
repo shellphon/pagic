@@ -29,6 +29,7 @@
   },
   "homepage": "https://github.com/xcatliu/pagic#readme",
   "dependencies": {
+    "chokidar": "^1.6.1",
     "commander": "^2.9.0",
     "find-parent-dir": "^0.3.0",
     "front-matter": "^2.1.2",
