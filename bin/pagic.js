@@ -3,7 +3,7 @@
 const pkg = require('../package.json');
 const program = require('commander');
 const fs = require('fs');
-const Pagic = require('..').Pagic;
+const Pagic = require('../src/Pagic');
 const chokidar = require('chokidar');
 
 const Path = require('path');
