@@ -37,70 +37,70 @@ if (program.watch) {
 
   //init scan ready for watchfile
   watcher.on('ready', () =>{
-    watcher.on('add', (path, stats) =>{
+    watcher.on('add', (filepath, stats) =>{
       /*
         新增md文件: 文件路径=>生成
         ，其他文件 文件路径=>拷贝
         ，layout文件 文件路径=> 从当前目录开始，所有md文件，如果md文件（除了当前目录）的目录没有layout文件，都重新生成
       */
-      console.log('add:', path);
-      if(detectFile(path)==='.md'){
-        pagic.addMd(path);
+      console.log('add:', filepath);
+      if(detectFile(filepath)==='.md'){
+        pagic.addMd(filepath);
         return;
       }
 
-      if(detectFile(path)==='layout'){
-        pagic.buildMDByAdd(path);
+      if(detectFile(filepath)==='layout'){
+        pagic.buildMDByAdd(filepath);
         return;
       }
 
-      pagic.copySingleFile(Path.relative(pagic.options.srcDir, path));
+      pagic.copyFile(filepath);
        
       
       //pagic.build();
       
       
-    }).on('unlink', path =>{
+    }).on('unlink', filepath =>{
       /*
         删除md文件: 文件路径=>删除html文件
         删除其他文件: 文件路径=> 删除对应文件
         删除layout文件: 文件路径=>当前目录开始，所有md文件，如果md文件目录没有layout，都重新生成
       */
-      console.log('delete:',path);
+      console.log('delete:',filepath);
 
-      if(detectFile(path)==='.md'){
-        pagic.delMd(Path.relative(pagic.options.srcDir, path));
+      if(detectFile(filepath)==='.md'){
+        pagic.delMd(filepath);
         return;
       }
 
-      if(detectFile(path)==='layout'){
-        pagic.buildMDByDel(path);
+      if(detectFile(filepath)==='layout'){
+        pagic.buildMDByDel(filepath);
         return;
       }
 
-      pagic.deleteStaticFile(Path.relative(pagic.options.srcDir, path));
+      pagic.deleteStaticFile(filepath);
         
       
       //pagic.build();
-    }).on('change', (path, stats) =>{
+    }).on('change', (filepath, stats) =>{
       /*
         修改md文件：文件路径=>重新生成
         修改其他文件：文件路径=>覆盖
         修改layout文件：文件路径=> 当前目录开始，所有md文件，如果所在目录(当前目录除外)没有layout文件，则重新生成
       */
-      console.log('change:', path);
+      console.log('change:', filepath);
 
-      if(detectFile(path)==='.md'){
-        pagic.addMd(path);
+      if(detectFile(filepath)==='.md'){
+        pagic.addMd(filepath);
         return;
       }
 
-      if(detectFile(path)==='layout'){
-        pagic.buildMDByAdd(path, true);
+      if(detectFile(filepath)==='layout'){
+        pagic.buildMDByModify(filepath);
         return;
       }
 
-      pagic.copySingleFile(Path.relative(pagic.options.srcDir, path));
+      pagic.copyFile(filepath);
       
       //pagic.build();
     }).on('error', error =>{
